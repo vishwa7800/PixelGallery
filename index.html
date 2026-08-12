@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Gallery</title>
+  <!-- Viewport meta tag for responsive design on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Main CSS stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Loads the Font Awesome CSS from CDN(Content Delivery Network)to use scalable icons in the webpage (heart, bookmark, user, etc.) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ========== HEADER SECTION ========== -->
+<!-- Contains logo, search bar, and action buttons (like, save, login) -->
+<header class="topbar">
+  <div class="header-content">
+    <!-- Top section with logo and action buttons -->
+    <div class="header-top">
+      <h1><i class="fas fa-camera-retro"></i> PixelGallery</h1>    <!-- Gallery logo with camera icon -->
+      
+      <!-- Header action buttons (liked, saved, login/profile) -->
+      <div class="header-actions">
+        <!-- Liked images button with badge showing count -->
+        <button class="header-btn liked-btn" id="likedBtn" title="View Liked Images">
+          <i class="fas fa-heart"></i>
+          <span class="badge" id="likedCount">0</span>
+        </button>
+        
+        <!-- Saved images button with badge showing count -->
+        <button class="header-btn saved-btn" id="savedBtn" title="View Saved Images">
+          <i class="fas fa-bookmark"></i>
+          <span class="badge" id="savedCount">0</span>
+        </button>
+        
+        <!-- Login button (visible when not logged in) -->
+        <button class="header-btn auth-btn" id="authBtn" title="Login">
+          <i class="fas fa-user"></i>
+        </button>
+        
+        <!-- Profile button (visible when logged in) -->
+        <button class="header-btn profile-btn" id="profileBtn" style="display: none;" title="Profile">
+          <i class="fas fa-user-circle"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Subtitle/tagline -->
+    <p class="subtitle">Discover stunning images from around the world</p>
+  </div>
+  
+  <!-- Search bar container -->
+  <div class="search-container">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" id="search" placeholder="Search images">
+  </div>
+</header>
+
+<!-- ========== AUTHENTICATION MODAL ========== -->
+<!-- Modal popup for login and signup forms -->
+<div class="modal" id="authModal">
+  <div class="modal-content auth-modal">
+    <!-- Close button for auth modal -->
+    <span class="modal-close" id="authModalClose">×</span>
+    
+    <!-- ===== LOGIN FORM ===== -->
+    <div class="auth-form" id="loginForm">
+      <h2>Login</h2>
+      <!-- Email input field -->
+      <div class="form-group">
+        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+      </div>
+      <!-- Password input field -->
+      <div class="form-group">
+        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+      </div>
+      <!-- Login submit button -->
+      <button class="auth-submit" id="loginSubmit">Login</button>
+      <!-- Link to switch to signup form -->
+      <p class="auth-toggle">Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+    </div>
+    
+    <!-- ===== SIGNUP FORM ===== -->
+    <div class="auth-form" id="signupForm" style="display: none;">
+      <h2>Sign Up</h2>
+      <!-- Name input field -->
+      <div class="form-group">
+        <input type="text" id="signupName" placeholder="Enter your name" required>
+      </div>
+      <!-- Email input field -->
+      <div class="form-group">
+        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+      </div>
+      <!-- Password input field -->
+      <div class="form-group">
+        <input type="password" id="signupPassword" placeholder="Create a password" required>
+      </div>
+      <!-- Signup submit button -->
+      <button class="auth-submit" id="signupSubmit">Sign Up</button>
+      <!-- Link to switch to login form -->
+      <p class="auth-toggle">Already have an account? <a href="#" id="showLogin">Login</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PROFILE MODAL ========== -->
+<!-- Modal popup showing user profile and collections -->
+<div class="modal" id="profileModal">
+  <div class="modal-content profile-modal">
+    <!-- Close button for profile modal -->
+    <span class="modal-close" id="profileModalClose">×</span>
+    <h2>My Profile</h2>
+    
+    <!-- User information display -->
+    <div class="profile-info">
+      <p id="userNameDisplay"></p>
+      <p id="userEmailDisplay"></p>
+    </div>
+    
+    <!-- Tabs to switch between liked and saved images -->
+    <div class="profile-tabs">
+      <button class="tab-btn active" id="likedImagesTab">Liked Images</button>
+      <button class="tab-btn" id="savedImagesTab">Saved Images</button>
+    </div>
+    
+    <!-- Liked images gallery container -->
+    <div class="profile-content" id="likedContent">
+      <div id="likedGallery" class="profile-gallery"></div>
+    </div>
+    
+    <!-- Saved images gallery container (hidden by default) -->
+    <div class="profile-content" id="savedContent" style="display: none;">
+      <div id="savedGallery" class="profile-gallery"></div>
+    </div>
+    
+    <!-- Logout button -->
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </div>
+</div>
+
+<!-- ========== MAIN GALLERY ========== -->
+<!-- Masonry layout container for image cards -->
+<section class="masonry" id="gallery"></section>
+
+<!-- ========== LIKED IMAGES PAGE ========== -->
+<!-- Dedicated full page to display all liked images -->
+<section class="collection-page" id="likedPage" style="display: none;">
+  <div class="collection-header">
+    <!-- Back button to return to main gallery -->
+    <button class="back-btn" id="backFromLiked">
+      <i class="fas fa-arrow-left"></i> Back to Gallery
+    </button>
+    <h2><i class="fas fa-heart"></i> Liked Images</h2>
+  </div>
+  <!-- Container for liked images grid -->
+  <div class="collection-gallery" id="likedPageGallery"></div>
+</section>
+
+<!-- ========== SAVED IMAGES PAGE ========== -->
+<!-- Dedicated full page to display all saved images -->
+<section class="collection-page" id="savedPage" style="display: none;">
+  <div class="collection-header">
+    <!-- Back button to return to main gallery -->
+    <button class="back-btn" id="backFromSaved">
+      <i class="fas fa-arrow-left"></i> Back to Gallery
+    </button>
+    <h2><i class="fas fa-bookmark"></i> Saved Images</h2>
+  </div>
+  <!-- Container for saved images grid -->
+  <div class="collection-gallery" id="savedPageGallery"></div>
+</section>
+
+<!-- ========== LOADING SPINNER ========== -->
+<!-- Animated spinner shown while loading more images -->
+<div class="loading-spinner" id="spinner">
+  <div class="spinner"></div>
+</div>
+
+<!-- ========== LIGHTBOX (Image Viewer) ========== -->
+<!-- Full-screen modal for viewing images in detail -->
+<div class="lightbox">
+  <!-- Close button (X) in top-right corner -->
+  <span class="close" title="Close (Esc)">×</span>
+  
+  <!-- Previous image navigation button (left side) -->
+  <button class="nav-btn prev-btn" title="Previous (←)">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  
+  <!-- Main lightbox content area -->
+  <div class="lightbox-content">
+    <!-- Full-size image display -->
+    <img class="lightbox-img" alt="Lightbox Image">
+    
+    <!-- Action buttons below the image -->
+    <div class="lightbox-info">
+      <!-- Download button - saves image to device -->
+      <button class="action-btn download-btn" title="Download">
+        <i class="fas fa-download"></i>
+      </button>
+      <!-- Like button - adds to liked collection -->
+      <button class="action-btn like-lightbox-btn" title="Like">
+        <i class="far fa-heart"></i>
+      </button>
+      <!-- Save button - adds to saved collection -->
+      <button class="action-btn save-lightbox-btn" title="Save">
+        <i class="far fa-bookmark"></i>
+      </button>
+      <!-- Share button - opens share options -->
+      <button class="action-btn share-btn" title="Share">
+        <i class="fas fa-share-alt"></i>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Next image navigation button (right side) -->
+  <button class="nav-btn next-btn" title="Next (→)">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+
+<!-- ========== BACK TO TOP BUTTON ========== -->
+<!-- Floating button appears when user scrolls down - returns to page top -->
+<button class="back-to-top" id="backToTop" title="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ========== JAVASCRIPT ========== -->
+<!-- All gallery functionality, authentication, and interactions -->
+<script src="script.js"></script>
+</body>
+</html>
