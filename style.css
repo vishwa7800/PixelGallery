@@ -1,0 +1,919 @@
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+/* Remove default margins, padding and set consistent box-sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body - set global font, background gradient, and minimum height */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #111;
+  min-height: 100vh;
+}
+
+/* ========================================
+   HEADER / TOPBAR SECTION
+   ======================================== */
+/* Main header with purple gradient background */
+.topbar {
+  position: relative; /* Allow header to scroll with page */
+  z-index: 10; /* Keep header above other content */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 25px 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* Center header content */
+.header-content {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Top row containing logo and action buttons */
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 15px;
+}
+
+/* Container for header action buttons (liked, saved, auth, profile) */
+.header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Style for round icon buttons in header */
+.header-btn {
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 12px 16px;
+  border-radius: 50%; /* Make buttons circular */
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  position: relative; /* For badge positioning */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+/* Button hover effect - brighten and scale up */
+.header-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Badge showing count of liked/saved items */
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4757; /* Red background for visibility */
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Main heading (site title) */
+.topbar h1 {
+  font-size: 42px;
+  margin-bottom: 0;
+  color: white;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* Add depth to text */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Subtitle text under main heading */
+.subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+/* Search bar container */
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+/* Search icon positioned inside input field */
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
+}
+
+/* Search input field styling */
+.topbar input {
+  width: 100%;
+  padding: 16px 20px 16px 50px; /* Left padding for icon */
+  border-radius: 50px;
+  border: none;
+  font-size: 15px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+/* Input focus effect - lift and add shadow */
+.topbar input:focus {
+  outline: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   FILTERS SECTION
+   ======================================== */
+/* Container for filter buttons */
+.filters {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+/* Individual filter button styling */
+.filter-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 25px; /* Pill-shaped buttons */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Filter button hover effect */
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Active filter button - inverted colors */
+.filter-btn.active {
+  background: white;
+  color: #667eea;
+  border-color: white;
+}
+
+/* ========================================
+   MASONRY GALLERY LAYOUT
+   ======================================== */
+/* Main gallery using CSS columns for masonry effect */
+.masonry {
+  column-count: 4; /* 4 columns on large screens */
+  column-gap: 20px;
+  padding: 40px 40px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Responsive breakpoints - reduce columns as screen size decreases */
+@media (max-width: 1200px) { .masonry { column-count: 3; } }
+@media (max-width: 768px) { 
+  .masonry { column-count: 2; padding: 30px 20px; }
+  .topbar { padding: 20px 20px; }
+  .topbar h1 { font-size: 32px; }
+}
+@media (max-width: 480px) { 
+  .masonry { column-count: 1; } /* Single column on mobile */
+  .filters { gap: 8px; }
+  .filter-btn { padding: 8px 16px; font-size: 13px; }
+}
+
+/* ========================================
+   IMAGE CARD STYLES
+   ======================================== */
+/* Individual image card in masonry grid */
+.card {
+  break-inside: avoid; /* Prevent cards from breaking across columns */
+  margin-bottom: 20px;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #eaeaea; /* Placeholder color while loading */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+
+/* Card hover effect - lift up */
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* ========================================
+   SKELETON LOADING ANIMATION
+   ======================================== */
+/* Placeholder card while images load */
+.card.skeleton {
+  height: 300px;
+  animation: pulse 1.5s infinite;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #e0e0e0 50%,
+    #f0f0f0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Shimmer animation for loading cards */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Image within card */
+.card img {
+  width: 100%;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   CARD OVERLAY (HOVER EFFECT)
+   ======================================== */
+/* Dark gradient overlay shown on hover */
+.overlay {
+  position: absolute;
+  inset: 0; /* Cover entire card */
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+  opacity: 0; /* Hidden by default */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 20px;
+  transition: opacity 0.4s ease;
+}
+
+/* Zoom image on hover */
+.card:hover img {
+  transform: scale(1.08);
+}
+
+/* Show overlay on hover */
+.card:hover .overlay {
+  opacity: 1;
+}
+
+/* ========================================
+   LIKE BUTTON STATES
+   ======================================== */
+/* Liked state - red background with animation */
+.btn.liked {
+  background: rgba(255, 71, 87, 0.95) !important;
+  color: white;
+  animation: heartBeat 0.6s ease;
+}
+
+/* Heart beat animation when liking */
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(1.2); }
+}
+
+/* ========================================
+   OVERLAY BUTTONS
+   ======================================== */
+/* Like button on card overlay */
+.btn {
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  padding: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Button hover effect - scale and rotate */
+.btn:hover {
+  transform: scale(1.2) rotate(5deg);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* ========================================
+   LIGHTBOX (FULL-SCREEN IMAGE VIEWER)
+   ======================================== */
+/* Full-screen overlay for viewing images */
+.lightbox {
+  position: fixed;
+  inset: 0; /* Cover entire viewport */
+  background: rgba(0,0,0,0.96); /* Almost black background */
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* Above everything else */
+  animation: fadeIn 0.3s ease;
+}
+
+/* Show lightbox when active */
+.lightbox.show {
+  display: flex;
+}
+
+/* Fade-in animation for lightbox */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Container for lightbox image and info */
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Large image display in lightbox */
+.lightbox img {
+  max-width: 100%;
+  max-height: 85vh; /* Leave room for action buttons */
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: zoomIn 0.3s ease;
+}
+
+/* Zoom-in animation when opening lightbox */
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Container for action buttons below image */
+.lightbox-info {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Action buttons in lightbox (download, like, save, share) */
+.action-btn {
+  background: rgba(255,255,255,0.15); /* Semi-transparent */
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  padding: 12px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px); /* Blur background behind button */
+}
+
+/* Action button hover effect */
+.action-btn:hover {
+  background: rgba(255,255,255,0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Special hover color for like button */
+.like-btn:hover {
+  color: #ff4757;
+  border-color: #ff4757;
+}
+
+.close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 48px;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+}
+
+.close:hover {
+  transform: rotate(90deg) scale(1.1);
+  background: rgba(255,255,255,0.2);
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  padding: 20px 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 1001;
+}
+
+.prev-btn {
+  left: 30px;
+}
+
+.next-btn {
+  right: 30px;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.nav-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: none;
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.loading-spinner.show {
+  display: block;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(102, 126, 234, 0.3);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Collection Pages (Liked & Saved) */
+.collection-page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px;
+  min-height: 80vh;
+}
+
+.collection-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.collection-header h2 {
+  color: #667eea;
+  font-size: 32px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.collection-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.collection-gallery .gallery-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+
+.collection-gallery .gallery-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.collection-gallery .gallery-card img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collection-gallery .gallery-card:hover img {
+  transform: scale(1.08);
+}
+
+.collection-gallery .remove-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 71, 87, 0.95);
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.collection-gallery .gallery-card:hover .remove-btn {
+  opacity: 1;
+}
+
+.collection-gallery .remove-btn:hover {
+  transform: scale(1.15);
+  background: #ff3838;
+}
+
+.empty-collection {
+  text-align: center;
+  padding: 80px 20px;
+  color: #999;
+}
+
+.empty-collection i {
+  font-size: 64px;
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+.empty-collection h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.empty-collection p {
+  font-size: 16px;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 32px;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #000;
+  transform: rotate(90deg);
+}
+
+/* Auth Modal */
+.auth-modal {
+  max-width: 420px;
+}
+
+.auth-form h2 {
+  margin-bottom: 25px;
+  color: #667eea;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.auth-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.auth-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+.auth-toggle a {
+  color: #667eea;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.auth-toggle a:hover {
+  text-decoration: underline;
+}
+
+/* Profile Modal */
+.profile-modal {
+  max-width: 700px;
+  max-height: 80vh;
+}
+
+.profile-modal h2 {
+  color: #667eea;
+  margin-bottom: 20px;
+}
+
+.profile-info {
+  background: #f5f7fa;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-info p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.profile-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+
+.profile-content {
+  min-height: 200px;
+}
+
+.profile-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.profile-gallery img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.logout-btn:hover {
+  background: #ff3838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.empty-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* Responsive adjustments for lightbox */
+@media (max-width: 768px) {
+  .nav-btn {
+    padding: 15px 12px;
+    font-size: 20px;
+  }
+  
+  .prev-btn { left: 15px; }
+  .next-btn { right: 15px; }
+  
+  .close {
+    top: 15px;
+    right: 15px;
+    font-size: 36px;
+  }
+  
+  .action-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  .header-top {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .header-actions {
+    gap: 10px;
+  }
+  
+  .header-btn {
+    width: 45px;
+    height: 45px;
+    padding: 10px;
+  }
+  
+  .profile-modal {
+    max-width: 90%;
+    max-height: 85vh;
+  }
+  
+  .profile-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+  
+  .modal-content {
+    padding: 30px 20px;
+  }
+}
